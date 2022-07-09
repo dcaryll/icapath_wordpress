@@ -1,0 +1,719 @@
+@charset "UTF-8";
+
+@use 'foundation';
+@use 'layouts';
+
+/* Breakpoints */
+$zero: ( min: 0 );
+$xs: ( min:  480px );
+$sm: ( min:  768px );
+$md: ( min:  992px );
+$lg: ( min: 1200px );
+$xl: ( min: 1600px );
+$sm-only: ( min: map-get($sm, min), max: map-get($md, min) - 1 );
+$up2sm: ( min:  0, max: map-get($md, min) - 1 );
+$md-only: ( min: map-get($md, min), max: map-get($lg, min) - 1 );
+
+@mixin breakpoint($map) {
+	$query: '';
+	@if map-has-key($map, min) { $query: append($query, '(min-width: #{map-get($map, min)})'); }
+	@if map-has-key($map, min) and map-has-key($map, max) { $query: append($query, 'and'); }
+	@if map-has-key($map, max) { $query: append($query, '(max-width: #{map-get($map, max)})'); }
+	@media screen and #{$query} { @content; }
+}
+
+$brand-teal: #0d988c;
+$brand-green: #8abb2a;
+$brand-orange: #fe9d2b;
+$brand-orangelight: #f8a92a;
+$brand-black: #1c2a38;
+$brand-body: #868686;
+$gray-lighter: #6f6f6f;
+$border: #cbcbcb;
+
+$font-serif: 'Tinos', Georgia, serif;
+$font-sansserif: 'Poppins', Futura, Arial, sans-serif;
+
+%headline-smallcaps {
+	color: $brand-teal;
+	font-family: $font-sansserif;
+	font-size: 20px;
+	font-weight: 600;
+	letter-spacing: 3px;
+	line-height: 30px;
+	margin-bottom: 20px;
+	text-transform: uppercase;
+
+	.on-dark & {
+		color: #dad800;
+	}
+}
+
+%headline-biggest {
+	color: $brand-black;
+	font-family: $font-sansserif;
+	font-size: 48px;
+	font-weight: bold;
+	line-height: 55px;
+	margin-bottom: 30px;
+	@include breakpoint($sm) {
+		font-size: 72px;
+		line-height: 82px;
+	}
+
+	.on-dark & {
+		color: #fff;
+	}
+}
+
+%headline-big {
+	color: $brand-black;
+	font-family: $font-sansserif;
+	font-size: 38px;
+	font-weight: bold;
+	line-height: 52px;
+	margin-bottom: 20px;
+	@include breakpoint($xl) {
+		font-size: 60px;
+		line-height: 72px;
+	}
+
+	.on-dark & {
+		color: #fff;
+	}
+}
+
+%body-copy {
+	color: $brand-body;
+	font-family: $font-sansserif;
+	font-size: 18px;
+	line-height: 32px;
+	margin-bottom: 30px;
+	@include breakpoint($lg) {
+		font-size: 20px;
+		line-height: 38px;
+	}
+
+	.on-dark & {
+		color: #fff;
+	}
+}
+
+%headline-fancy {
+	color: $brand-teal;
+	font-family: $font-serif;
+	font-size: 32px;
+	@include breakpoint($sm) {
+		font-size: 40px;
+	}
+}
+
+%primary-cta {
+	background-color: $brand-orange;
+	border: 2px solid $brand-orange;
+	border-radius: 30px;
+	color: #fff;
+	display: inline-block;
+	font-family: $font-sansserif;
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 24px;
+	padding: 8px 20px;
+	text-decoration: none;
+	transition: 0.3s ease all;
+	@include breakpoint($xl) {
+		padding: 12px 30px;
+	}
+
+	&:hover {
+		background-color: #fff;
+		border: 2px solid $brand-orange;
+		color: $brand-orange;
+	}
+}
+
+%secondary-cta {
+	align-items: center;
+	background: transparent;
+	border: 2px solid $brand-orangelight;
+	border-radius: 30px;
+	color: $brand-orangelight;
+	display: inline-block;
+	font-family: $font-sansserif;
+	font-size: 16px;
+	font-weight: 600;
+	justify-content: center;
+	line-height: 24px;
+	padding: 8px 20px;
+	text-decoration: none;
+	transition: 0.3s ease all;
+	vertical-align: middle;
+	@include breakpoint($xl) {
+		padding: 12px 30px;
+	}
+
+	&:hover {
+		background-color: $brand-orangelight;
+		border: 2px solid $brand-orangelight;
+		color: #fff;
+	}
+}
+
+.header-full {
+	align-items: center;
+	background-color: #fff;
+	border-bottom: 1px solid $border;
+	border-top: 1px solid $border;
+	box-shadow: 1px 1px 1px #f0f0f0;
+	display: grid;
+	grid-template-columns: 1fr;
+	top: 0;
+	@include breakpoint($md) {
+		grid-template-columns: 1fr 1fr 1fr;
+		position: sticky;
+	}
+	@include breakpoint($lg) {
+		grid-template-columns: 2fr 3fr 2fr;
+	}
+
+	&--logo {
+		align-items: center;
+		background-color: #1c2a38;
+		justify-content: center;
+		padding: 10px;
+		text-align: center;
+		@include breakpoint($md) {
+			max-width: 300px;
+			text-align: center;
+		}
+
+		img {
+			display: inline-block;
+			max-width: 220px;
+			text-align: center;
+			@include breakpoint($md) {
+				display: inline-block;
+				max-width: 300px;
+			}
+		}
+	}
+
+	&--cta {
+		align-items: center;
+		display: flex;
+		justify-content: center;
+		padding: 20px 0;
+		@include breakpoint($md) {
+			justify-content: flex-end;
+			padding: 0 20px 0 0;
+			text-align: right;
+		}
+
+		p {
+			padding-right: 20px;
+		}
+
+		a {
+			@extend %secondary-cta;
+		}
+	}
+}
+
+.hero {
+	background-attachment: fixed;
+	background-image: none;
+	background-position: bottom right;
+	background-repeat: no-repeat;
+	background-size: contain;
+	padding: 24px;
+	@include breakpoint($md) {
+		padding: 96px 24px;
+	}
+	@include breakpoint($lg) {
+		background-image: url('../../assets/images/hero-bkg.svg');
+	}
+	@include breakpoint($xl) {
+		padding: 96px;
+	}
+
+	&--container {
+		margin: 0 auto;
+		max-width: 1440px;
+	}
+
+	&--titles {
+		max-width: 860px;
+
+		h3 {
+			@extend %headline-smallcaps;
+		}
+
+		h1 {
+			@extend %headline-biggest;
+		}
+
+		p {
+			@extend %body-copy;
+		}
+
+		a {
+			@extend %primary-cta;
+		}
+	}
+}
+
+.stats-band {
+	background-attachment: fixed;
+	background-color: #131f2a;
+	background-image: url('../../assets/images/bubbles-bkg.jpg');
+	background-position: bottom right;
+	background-repeat: no-repeat;
+	color: #fff;
+	padding: 64px 24px;
+	@include breakpoint($xl) {
+		padding: 96px 0;
+	}
+
+	&--container {
+		display: grid;
+		grid-gap: 64px;
+		grid-template-columns: 1fr;
+		margin: 0 auto;
+		max-width: 1440px;
+		padding: 0;
+		@include breakpoint($md) {
+			grid-template-columns: 1fr 1fr;
+			padding: 0;
+		}
+	}
+
+	&--items {
+		display: grid;
+		grid-gap: 32px;
+		grid-template-columns: 1fr;
+		@include breakpoint($sm) {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+
+	&--item {
+		max-width: 400px;
+		text-align: center;
+	}
+
+	&--number {
+		background-color: #fff;
+		border-radius: 30px 30px 0 0;
+		color: $brand-teal;
+		display: block;
+		font-size: 64px;
+		font-weight: bold;
+		padding: 30px 0 20px;
+		text-align: center;
+		@include breakpoint($xl) {
+			padding: 30px 0;
+		}
+	}
+
+	&--description {
+		background-color: #dad800;
+		border-radius: 0 0 30px 30px;
+		color: #fff;
+		display: block;
+		font-size: 17px;
+		font-weight: bold;
+		min-height: 30px;
+		padding: 24px 30px;
+		@include breakpoint($xl) {
+			font-size: 22px;
+			min-height: 50px;
+		}
+	}
+
+	&--titles {
+		h3 {
+			@extend %headline-smallcaps;
+
+		}
+
+		h4 {
+			@extend %headline-big;
+		}
+
+		p {
+			@extend %body-copy;
+		}
+
+		a {
+			@extend %primary-cta;
+
+			&:last-child {
+				background-color: transparent;
+			}
+		}
+	}
+}
+
+.inline-ctas {
+	align-items: center;
+	display: flex;
+	gap: 15px;
+
+	a {
+		@extend %primary-cta;
+
+		&:last-child {
+			@extend %secondary-cta;
+		}
+	}
+}
+
+.current-research {
+	display: grid;
+	grid-gap: 64px;
+	grid-template-columns: 1fr;
+	margin: 0 auto;
+	max-width: 1440px;
+	padding: 96px 24px;
+	@include breakpoint($sm) {
+		grid-template-columns: 1fr 1fr;
+	}
+	@include breakpoint($xl) {
+		padding: 96px 0;
+	}
+
+	&--description {
+		h3 {
+			@extend %headline-smallcaps;
+		}
+
+		h4 {
+			@extend %headline-big;
+		}
+
+		p {
+			@extend %body-copy;
+		}
+
+		a {
+			@extend %secondary-cta;
+		}
+	}
+}
+
+.current-research {
+	&--card {
+		border: 1px solid $border;
+
+		&-header {
+			background-color: $brand-teal;
+			color: #fff;
+			padding: 15px 30px;
+
+			h5 {
+				font-family: $font-serif;
+				font-size: 28px;
+			}
+		}
+
+		&-main {
+			padding: 30px;
+
+			h3 {
+				color: #0d988c;
+				font-size: 48px;
+				font-weight: normal;
+				margin-bottom: 30px;
+			}
+
+			p {
+				@extend %body-copy;
+			}
+		}
+	}
+}
+
+.quote-box {
+	background-image: url('../../assets/images/lines-dots-bkg.svg');
+	background-position: top right;
+	background-repeat: no-repeat;
+	background-size: cover;
+
+	&--container {
+		background-color: rgb(8, 76, 97);
+		background-image: url('../../assets/images/family-riding-bike.jpg');
+		background-position: center center;
+		background-repeat: no-repeat;
+		background-size: cover;
+		margin: 0 auto;
+		max-width: 1320px;
+		padding: 120px 32px;
+		@include breakpoint($sm) {
+			padding: 120px 64px;
+		}
+	}
+
+	&--description {
+		max-width: 600px;
+
+		h3 {
+			@extend %headline-big;
+		}
+
+		h4 {
+			align-items: center;
+			color: $brand-green;
+			display: inline-flex;
+			justify-content: center;
+			margin-bottom: 20px;
+			text-transform: uppercase;
+			vertical-align: middle;
+
+			&::before {
+				align-self: center;
+				border: 1px solid #fff;
+				border-radius: 50%;
+				content: open-quote;
+				display: inline-flex;
+				font-family: Georgia, 'Times New Roman', Times, serif;
+				font-size: 50px;
+				font-weight: lighter;
+				height: 40px;
+				justify-content: center;
+				line-height: 65px;
+				margin-right: 15px;
+				vertical-align: middle;
+				width: 40px;
+			}
+		}
+
+		blockquote p {
+			color: #fff;
+			font-family: $font-serif;
+			font-size: 30px;
+			line-height: 40px;
+			margin-bottom: 40px;
+		}
+
+		figcaption {
+			color: #fff;
+			font-weight: 600;
+			text-transform: uppercase;
+		}
+	}
+
+	&--additional {
+		align-items: center;
+		background: transparent linear-gradient(267deg, #0d988c 0%, #8abb2a 100%) 0% 0% no-repeat padding-box;
+		display: block;
+		margin: 0 auto;
+		max-width: 1320px;
+		padding: 15px 32px;
+		@include breakpoint($sm) {
+			display: flex;
+			padding: 15px 64px;
+		}
+
+		p {
+			color: #fff;
+			font-family: $font-serif;
+			font-size: 24px;
+			margin-bottom: 20px;
+			margin-right: 30px;
+			@include breakpoint($sm) {
+				display: flex;
+				margin-bottom: 0;
+			}
+		}
+
+		a {
+			@extend %secondary-cta;
+			color: #fff;
+		}
+	}
+}
+
+.news-listing {
+	&--container {
+		display: grid;
+		grid-gap: 80px;
+		grid-template-columns: 1fr;
+		margin: 0 auto;
+		max-width: 1440px;
+		padding: 96px 24px;
+		@include breakpoint($md) {
+			grid-template-columns: 2fr 3fr;
+		}
+		@include breakpoint($xl) {
+			padding: 96px 0;
+		}
+	}
+
+	&--title {
+		h2 {
+			@extend %headline-big;
+		}
+
+		p {
+			@extend %body-copy;
+		}
+	}
+}
+
+.news-listing {
+	&--post {
+		border-bottom: 1px solid $border;
+		display: grid;
+		grid-template-columns: 1fr;
+		margin-bottom: 30px;
+		@include breakpoint($md) {
+			grid-template-columns: 1fr 7fr 1fr;
+		}
+
+		&-date {
+			color: $brand-teal;
+			font-size: 18px;
+			font-weight: bold;
+			text-transform: uppercase;
+		}
+
+		&-title {
+			color: $brand-teal;
+			display: block;
+			font-size: 42px;
+			line-height: 42px;
+			margin-bottom: 20px;
+			text-decoration: none;
+			transition: 0.3s ease all;
+
+			&:hover {
+				color: #06554f;
+			}
+
+			a {
+				text-decoration: none;
+			}
+		}
+
+		&-lead {
+			@extend %body-copy;
+			font-size: 18px;
+			line-height: 28px;
+		}
+
+		&-link {
+			align-items: center;
+			display: inline-block;
+			display: none;
+			justify-content: center;
+			vertical-align: middle;
+			@include breakpoint($md) {
+				display: grid;
+			}
+		}
+
+		&-link a {
+			background-color: $brand-orangelight;
+			border-radius: 50%;
+			color: #fff;
+			display: block;
+			font-family: Georgia, 'Times New Roman', Times, serif;
+			font-size: 50px;
+			height: 30px;
+			justify-content: center;
+			left: 3px;
+			line-height: 26px;
+			padding: 10px;
+			position: relative;
+			text-align: center;
+			text-decoration: none;
+			transition: 0.3s ease all;
+			width: 30px;
+
+			&:hover {
+				background-color: $brand-teal;
+			}
+		}
+	}
+}
+
+.full-footer {
+	&--wrapper {
+		background-color: #1c2a38;
+		background-image: url('../../assets/images/footer-bkg.svg');
+		background-position: top right;
+		background-repeat: no-repeat;
+		background-size: 40%;
+		color: #fff;
+	}
+
+	&--container {
+		display: grid;
+		grid-gap: 80px;
+		grid-template-columns: 1fr;
+		margin: 0 auto;
+		max-width: 1440px;
+		padding: 80px 32px;
+		@include breakpoint($xl) {
+			padding: 80px 0;
+		}
+		@include breakpoint($md) {
+			grid-template-columns: 3fr 5fr;
+		}
+	}
+
+	&--logo {
+		max-width: 80%;
+
+		img {
+			display: block;
+			max-width: 300px;
+			padding-bottom: 20px;
+		}
+
+		p {
+			border-top: 1px solid #0d988c;
+			font-size: 12px;
+			line-height: 18px;
+			margin-top: 20px;
+			padding-top: 20px;
+		}
+	}
+
+	&--menus {
+		display: block;
+		gap: 80px;
+		@include breakpoint($md) {
+			display: flex;
+		}
+
+		ul {
+			list-style-type: none;
+			margin-bottom: 30px;
+			@include breakpoint($md) {
+				margin-bottom: 0;
+			}
+
+			li {
+				color: #fff;
+				line-height: 28px;
+
+				&:first-child {
+					font-weight: bold;
+					padding-bottom: 20px;
+				}
+			}
+
+			a {
+				color: #fff;
+				font-size: 14px;
+				text-decoration: none;
+				transition: 0.3s ease all;
+
+				&:hover {
+					color: $brand-green;
+				}
+			}
+		}
+	}
+}

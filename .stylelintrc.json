@@ -1,0 +1,18 @@
+{
+  "extends": ["stylelint-config-sass-guidelines"],
+  "rules": {
+    "indentation": "tab",
+    "max-nesting-depth": [
+         5,
+         {
+            "ignoreAtRules":[
+               "each",
+               "media",
+               "supports",
+               "include"
+            ],
+            "severity":"warning"
+         }
+      ]
+  }
+}
